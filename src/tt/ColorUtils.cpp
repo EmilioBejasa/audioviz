@@ -75,13 +75,15 @@ sf::Color hsv2rgb(float h, const float s, const float v)
 
 // still haven't integrated this feature yet lmao
 // just gonna let it sit on the backburner
-sf::Color interpolate(float t, float h1, float s1, float v1, float h2, float s2, float v2)
+sf::Vector3f interpolate(float t, sf::Vector3f start_hsv, sf::Vector3f end_hsv)
 {
+	const auto [h1, s1, v1] = start_hsv;
+	const auto [h2, s2, v2] = end_hsv;
 	float h = h1 + t * (h2 - h1);
 	float s = s1 + t * (s2 - s1);
 	float v = v1 + t * (v2 - v1);
 
-	return hsv2rgb(h, s, v);
+	return {h, s, v};
 }
 
 } // namespace tt

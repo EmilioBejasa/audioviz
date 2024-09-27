@@ -100,7 +100,7 @@ public:
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states = {}) const override
 	{
-		target.draw(_left, states);
+		// target.draw(_left, states);
 		target.draw(_right, states);
 	}
 

@@ -44,14 +44,17 @@ private:
 		/**
 		 * @param index_ratio the ratio of your loop index (`i`) to the total number of bars to print (`bars.size()`)
 		 */
-		sf::Color get(const float index_ratio) const
+		sf::Color get(const float index_ratio)
 		{
 			switch (mode)
 			{
 			case ColorMode::WHEEL:
 			{
-				const auto [h, s, v] = wheel.hsv;
-				return tt::hsv2rgb(index_ratio + h + wheel.time, s, v);
+				// const auto [h, s, v] = wheel.hsv;
+				// return tt::hsv2rgb(index_ratio + h + wheel.time, s, v);
+				float t = fmod(index_ratio + wheel.time, 1.0);					
+				const auto [h, s, v] = tt::interpolate(t, wheel.start_hsv, wheel.end_hsv);
+				return tt::hsv2rgb(h, s, v);
 			}
 
 			case ColorMode::SOLID:
@@ -66,7 +69,7 @@ private:
 		struct
 		{
 			float time = 0, rate = 0;
-			sf::Vector3f hsv{0.9, 0.7, 1};
+			sf::Vector3f start_hsv{0.2, 0.7, 1}, end_hsv{0.9, 0.7, 1}, current_hsv{};
 			void increment_time() { time += rate; }
 		} wheel;
 	} color;
@@ -111,9 +114,9 @@ public:
 
 	void set_color_wheel_hsv(const sf::Vector3f hsv)
 	{
-		if (color.wheel.hsv == hsv)
+		if (color.wheel.start_hsv == hsv)
 			return;
-		color.wheel.hsv = hsv;
+		color.wheel.start_hsv = hsv;
 		update_bar_colors();
 	}
 
