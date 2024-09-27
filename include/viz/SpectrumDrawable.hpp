@@ -69,7 +69,7 @@ private:
 		struct
 		{
 			float time = 0, rate = 0;
-			sf::Vector3f start_hsv{0.2, 0.7, 1}, end_hsv{0.9, 0.7, 1}, current_hsv{};
+			sf::Vector3f start_hsv{0.1, 0.7, 1}, end_hsv{0.5, 0.7, 1};
 			void increment_time() { time += rate; }
 		} wheel;
 	} color;

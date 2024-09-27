@@ -135,7 +135,7 @@ void Main::use_args(audioviz &viz, const Args &args)
 			ss.set_color_mode(SD::ColorMode::WHEEL);
 			const auto &hsv = args.get<std::vector<float>>("--hsv");
 			assert(hsv.size() == 3);
-			ss.set_color_wheel_hsv({hsv[0], hsv[1], hsv[2]});
+			// ss.set_color_wheel_hsv({hsv[0], hsv[1], hsv[2]});
 			ss.set_color_wheel_rate(args.get<float>("--wheel-rate"));
 		}
 		else if (color_str == "solid")
