@@ -58,6 +58,12 @@ public:
 		_right.set_color_wheel_rate(rate);
 	}
 
+	void set_color_wheel_ranges(sf::Vector3f start_hsv, sf::Vector3f end_hsv)
+	{
+		_left.set_color_wheel_ranges(start_hsv, end_hsv);
+		_right.set_color_wheel_ranges(start_hsv, end_hsv);
+	}
+
 	void set_color_wheel_hsv(sf::Vector3f hsv)
 	{
 		_left.set_color_wheel_hsv(hsv);
@@ -100,7 +106,7 @@ public:
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states = {}) const override
 	{
-		// target.draw(_left, states);
+		target.draw(_left, states);
 		target.draw(_right, states);
 	}
 

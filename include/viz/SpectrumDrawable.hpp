@@ -18,7 +18,8 @@ public:
 	enum class ColorMode
 	{
 		WHEEL,
-		SOLID
+		SOLID,
+		WHEEL_RANGES
 	};
 
 private:
@@ -50,8 +51,13 @@ private:
 			{
 			case ColorMode::WHEEL:
 			{
-				// const auto [h, s, v] = wheel.hsv;
-				// return tt::hsv2rgb(index_ratio + h + wheel.time, s, v);
+				const auto [h, s, v] = wheel.hsv;
+				return tt::hsv2rgb(index_ratio + h + wheel.time, s, v);
+			}
+
+
+			case ColorMode::WHEEL_RANGES:
+			{
 				float t = fmod(index_ratio + wheel.time, 1.0);					
 				const auto [h, s, v] = tt::interpolate(t, wheel.start_hsv, wheel.end_hsv);
 				return tt::hsv2rgb(h, s, v);
@@ -69,7 +75,8 @@ private:
 		struct
 		{
 			float time = 0, rate = 0;
-			sf::Vector3f start_hsv{0.1, 0.7, 1}, end_hsv{0.5, 0.7, 1};
+			sf::Vector3f hsv{0.9, 0.7, 1}; // this is for WHEEL mode only
+			sf::Vector3f start_hsv{0.9, 0.7, 1}, end_hsv{}; // these are for WHEEL_RANGES
 			void increment_time() { time += rate; }
 		} wheel;
 	} color;
@@ -114,9 +121,18 @@ public:
 
 	void set_color_wheel_hsv(const sf::Vector3f hsv)
 	{
-		if (color.wheel.start_hsv == hsv)
+		if (color.wheel.hsv == hsv)
 			return;
-		color.wheel.start_hsv = hsv;
+		color.wheel.hsv = hsv;
+		update_bar_colors();
+	}
+
+	void set_color_wheel_ranges(const sf::Vector3f start_hsv, const sf::Vector3f end_hsv)
+	{
+		if (color.wheel.start_hsv == start_hsv && color.wheel.end_hsv == end_hsv)
+			return;
+		color.wheel.start_hsv = start_hsv;
+		color.wheel.end_hsv = end_hsv;
 		update_bar_colors();
 	}
 
