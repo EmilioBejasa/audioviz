@@ -1,3 +1,4 @@
+#include <cctype>
 #include <cmath>
 #include <stdexcept>
 
@@ -79,9 +80,19 @@ sf::Vector3f interpolate(float t, sf::Vector3f start_hsv, sf::Vector3f end_hsv)
 {
 	const auto [h1, s1, v1] = start_hsv;
 	const auto [h2, s2, v2] = end_hsv;
-	float h = h1 + t * (h2 - h1);
-	float s = s1 + t * (s2 - s1);
-	float v = v1 + t * (v2 - v1);
+	float reversed_t;
+	if (1 >= std::fmod(t, 2.0)) {
+		reversed_t = std::fmod(t, 2.0);
+	} 
+	else {
+		reversed_t = 2.0 - std::fmod(t, 2.0);
+	} /*
+	float h = h1 + std::fmod(t, 1.0) * (h2 - h1);
+	float s = s1 + std::fmod(t, 1.0) * (s2 - s1);
+	float v = v1 + std::fmod(t, 1.0) * (v2 - v1);*/
+	float h = h1 + reversed_t * (h2 - h1);
+	float s = s1 + reversed_t * (s2 - s1);
+	float v = v1 + reversed_t * (v2 - v1);
 
 	return {h, s, v};
 }

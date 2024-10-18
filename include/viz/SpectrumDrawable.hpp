@@ -58,8 +58,7 @@ private:
 
 			case ColorMode::WHEEL_RANGES:
 			{
-				float t = fmod(index_ratio + wheel.time, 1.0);					
-				const auto [h, s, v] = tt::interpolate(t, wheel.start_hsv, wheel.end_hsv);
+				const auto [h, s, v] = tt::interpolate(index_ratio + wheel.time, wheel.start_hsv, wheel.end_hsv);
 				return tt::hsv2rgb(h, s, v);
 			}
 
