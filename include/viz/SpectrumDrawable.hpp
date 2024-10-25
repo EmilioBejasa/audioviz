@@ -19,7 +19,8 @@ public:
 	{
 		WHEEL,
 		SOLID,
-		WHEEL_RANGES
+		WHEEL_RANGES, 
+		WHEEL_RANGES_REVERSE 
 	};
 
 private:
@@ -62,6 +63,12 @@ private:
 				return tt::hsv2rgb(h, s, v);
 			}
 
+			case ColorMode::WHEEL_RANGES_REVERSE:
+			{
+				const auto [h, s, v] = tt::interpolate_and_reverse(index_ratio + wheel.time, wheel.start_hsv, wheel.end_hsv);
+				return tt::hsv2rgb(h, s, v);
+			}
+
 			case ColorMode::SOLID:
 				return solid;
 
@@ -75,7 +82,7 @@ private:
 		{
 			float time = 0, rate = 0;
 			sf::Vector3f hsv{0.9, 0.7, 1}; // this is for WHEEL mode only
-			sf::Vector3f start_hsv{0.9, 0.7, 1}, end_hsv{}; // these are for WHEEL_RANGES
+			sf::Vector3f start_hsv{0.9, 0.7, 1}, end_hsv{}; // these are for WHEEL_RANGES and WHEEL_RANGES_REVERSE
 			void increment_time() { time += rate; }
 		} wheel;
 	} color;

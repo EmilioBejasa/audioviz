@@ -1,6 +1,8 @@
 #include <cctype>
 #include <cmath>
+#include <cstdlib>
 #include <stdexcept>
+#include <iostream>
 
 #include "tt/ColorUtils.hpp"
 
@@ -88,23 +90,15 @@ sf::Vector3f interpolate(float t, sf::Vector3f start_hsv, sf::Vector3f end_hsv)
 	return {h, s, v};
 }
 
-// still haven't integrated this feature yet lmao
-// just gonna let it sit on the backburner
 sf::Vector3f interpolate_and_reverse(float t, sf::Vector3f start_hsv, sf::Vector3f end_hsv)
 {
 	const auto [h1, s1, v1] = start_hsv;
 	const auto [h2, s2, v2] = end_hsv;
-	float reversed_t;
-	if (std::fmod(t, 2.0) <= 1) {
-		reversed_t = std::fmod(t, 2.0);
-	} 
-	else {
-		reversed_t = 2.0 - std::fmod(t, 2.0);
-	}
+	float reversed_t = abs(std::sin(t));	
 	float h = h1 + reversed_t * (h2 - h1);
 	float s = s1 + reversed_t * (s2 - s1);
 	float v = v1 + reversed_t * (v2 - v1);
-
+	std::cout << t << " -> " << reversed_t << std::endl;
 	return {h, s, v};
 }
 
